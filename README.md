@@ -1,6 +1,6 @@
 ### Getting Started:
 
-# To begin the project you must clone this repository. On the top of this page there is a green "clone or download" button. Copy the github link from here. Then type the following command into your terminal: 
+#### To begin the project you must clone this repository. On the top of this page there is a green "clone or download" button. Copy the github link from here. Then type the following command into your terminal: 
 
 git clone *git://copied.url.git*
 
