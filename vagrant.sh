@@ -4,13 +4,13 @@
 sudo apt update
 
 # Install the only editors you'll ever need.
+# Protip: vim is better than emacs
 sudo apt install vim emacs --yes
 
-sudo apt install git
+# Version control!
+sudo apt install git --yes
 
-# Install Python pip with --yes as the default argument
-
-# Install virtualenv used for 485 projects
+# Install python3, pip (python's package manager), and virutal environment for python
 sudo apt install python3 python3-pip --yes
 pip3 install virtualenv
 
@@ -22,7 +22,4 @@ sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again p
 # Install MySQL server with the default argument --yes
 sudo apt install mysql-server --yes
 sudo apt install build-essential python-dev libmysqlclient-dev --yes
-
-# So that we can load XML infile for SQL purposes (used in project 1)
-sudo printf "\n[mysqld]\nlocal-infile\n\n[mysql]\nlocal-infile\n" >> /etc/mysql/my.cnf
 
