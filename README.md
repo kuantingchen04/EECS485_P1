@@ -2,7 +2,7 @@
 
 #### To begin the project you must clone this repository. On the top of this page there is a green "clone or download" button. Copy the github link from here. Then type the following command into your terminal: 
 
-`git@github.com:eecs485staff/p1-starter-code.git`
+`git clone git@github.com:eecs485staff/p1-starter-code.git`
 
 You should notice that the folder from git is now on your local machine, called *p1-starter-code*. You will learn more about git basics and how to use the platform in the first discussion. 
 
