@@ -6,6 +6,12 @@
 
 You should notice that the folder from git is now on your local machine, called *p1-starter-code*. You will learn more about git basics and how to use the platform in the first discussion. 
 
+You should not push to the starter code repository. Once you have received your p1 repository, add it to your cloned repo with the following commands:
+
+`git remote rename origin staff`
+
+`git remote add origin <URL>`
+
 ------
 
 Example Project Below README.md:
