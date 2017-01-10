@@ -10,8 +10,10 @@ def albums_edit_route():
 	return render_template("albums.html", **options)
 
 
-@albums.route('/albums?username=<username>')
-def albums_route(username):
+@albums.route('/albums')
+def albums_route():
+	#username='aaa'
+	username=request.args.get("username")
 	options = {
 		"edit": False
 	}
