@@ -4,9 +4,9 @@ from extensions import connect_to_database
 main = Blueprint('main', __name__, template_folder='templates')
 @main.route('/')
 def main_route():
-    name_list=['Jon_Snow','Ygritte','Doraemon',]
+    name_list=['sportslover','traveler','spacejunkie']
 
-    return render_template("index.html",name_list=[[n,"albums?username="+n,"user_albums_"+n] for n in name_list])
+    return render_template("index.html",name_list=name_list)
 
 @main.route('/hello')
 def main_hello():
