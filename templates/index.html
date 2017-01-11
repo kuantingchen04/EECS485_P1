@@ -1,7 +1,50 @@
 {% extends "base.html" %}
+
 {% block content %}
-    <h1>INDEX</h1>
-    <p class="center">
-      Welcome!
-    </p>
+<!--style>
+body {
+    background-image: url("http://i.imgur.com/dICOJo8.jpg");
+  background-size:100%;
+  background-repeat: no-repeat;
+    background-attachment: fixed;
+
+}
+</style-->
+
+      <div class="container theme-showcase" role="main">
+
+      <!-- Main jumbotron for a primary marketing message or call to action -->
+      <div class="jumbotron">
+        <h1>Hello </h1>
+        <p>Welcome to this website. This site is for the exclusive use of EECS 485.</p>
+     <!--  <p><a href="search_the_folder.html" class="btn btn-primary btn-lg" role="button">Search the folder &raquo;</a></p> -->
+     
+      </div>
+      <p><div class="col-lg-6">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>User</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                     {% for n in name_list %}
+                                     <tr>
+                                      <td> <a id={{"user_albums_"~n}} href={{"albums?username="~n}}  >{{n}} </td>
+                                      </tr>
+                                      {% endfor %}
+                                      
+                                    
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+     </p>
+
+      
+
+</div>
 {% endblock %}

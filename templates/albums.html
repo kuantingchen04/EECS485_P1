@@ -1,10 +1,54 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>ALBUMS</h1>
-    <p class="important">
-      Welcome!
-    </p>
+
+
+            
+	 <div class="container theme-showcase" role="main">
+    <div class="jumbotron">
+        <h1>Hello {{username}}</h1>
+        
+        <p>These are your albums, {{username}}</p>
+     <!--  <p><a href="search_the_folder.html" class="btn btn-primary btn-lg" role="button">Search the folder &raquo;</a></p> -->
+     </p>
+     {%for al in album_list%}
+     
+     	<div class=\"col-sm-6 col-md-3\">
+     	<li><a id={{"album_"~al[2]~"_link"}} href={{"album?albumid="~al[2]}}>{{al[0]}}</a></li>
+     	{% if edit %}
+      	<a id ={{"user_albums_"~al[2]~" "}} href={{"../albums?username="~username}} class="btn btn-warning btn" role="button">Edit()»</a>
+      	<a id ={{"delete_album_"~al[2]~" "}} href={{"../albums?username="~username}} class="btn btn-danger btn" role="button">Delete»</a>
+      	{%endif%}
+
+     	</div>
+     {%endfor%}
+     {%if edit%}
+     <p>
+     <div class="col-sm-3">
+     <div class="form-group">
+            <label>Add a new album</label>
+            <input id=album_add_name class="form-control" placeholder="Album name">
+        </div>
+    </div>
+	</p>
+	<br><br><br><br>
+     <a id ="id=album_add_submit" href={{"../albums?username="~username}} class="btn btn-primary btn" role="button">Add a new album»</a>
+     
+    {%endif%}
+ </p>
+ </div>
+ <p>
     {% if edit %}
-        <div> This is only on the edit page </div>
+      <a id ={{"user_albums_"~username~" "}} href={{"../albums?username="~username}} class="btn btn-success btn-lg" role="button">Back to Albums»</a>
+      
+     {% else %}
+     <a id ={{"user_albums_edit_"~username~" "}} href={{"albums/edit?username="~username}} class="btn btn-warning btn-lg" role="button">Edit »</a>
     {% endif %}
+	</p>    
+
+
+</div>
+
+</div>
+
+
 {% endblock %}
