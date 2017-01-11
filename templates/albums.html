@@ -13,10 +13,10 @@
      {%for al in album_list%}
      
      	<div class=\"col-sm-6 col-md-3\">
-     	<li><a id={{"album_"~al[2]~"_link"}} href={{"album?albumid="~al[2]}}>{{al[0]}}</a></li>
+     	<li><a id={{"album_"~al[0]~"_link"}} href={{"album?albumid="~al[0]}}>{{al[1]}}</a></li>
      	{% if edit %}
-      	<a id ={{"user_albums_"~al[2]~" "}} href={{"../albums?username="~username}} class="btn btn-warning btn" role="button">Edit()»</a>
-      	<a id ={{"delete_album_"~al[2]~" "}} href={{"../albums?username="~username}} class="btn btn-danger btn" role="button">Delete»</a>
+      	<a id ={{"user_albums_"~al[0]~" "}} href={{"../albums?username="~username}} class="btn btn-warning btn" role="button">Edit()»</a>
+      	<a id ={{"delete_album_"~al[0]~" "}} href={{"../albums?username="~username}} class="btn btn-danger btn" role="button">Delete»</a>
       	{%endif%}
 
      	</div>
