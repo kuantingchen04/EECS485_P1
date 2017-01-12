@@ -15,18 +15,25 @@
      	<div class=\"col-sm-6 col-md-3\">
      	<li><a id={{"album_"~al[0]~"_link"}} href={{"album?albumid="~al[0]}}>{{al[1]}}</a></li>
      	{% if edit %}
-      	<a id ={{"user_albums_"~al[0]~" "}} href={{"../albums?username="~username}} class="btn btn-warning btn" role="button">Edit()»</a>
-      	<a id ={{"delete_album_"~al[0]~" "}} href={{"../albums?username="~username}} class="btn btn-danger btn" role="button">Delete»</a>
+      	
+        <form method=post  action={{"../albums/edit?username="~username}} method="POST" enctype=multipart/form-data>
+        <a id ={{"album_edit_"~al[0]~"_link"}} href={{"../album/edit?albumid="~al[0]}} class="btn btn-warning btn-sm" role="button">Edit»</a>
+      	<input id ={{"delete_album_"~al[0]}} type =submit class="btn btn-danger btn-sm" role="button" value=Delete>
+        <input type="hidden" name="op" value="delete">
+        <input type="hidden" name="albumid" value={{al[0]}}>
+        </form> 
       	{%endif%}
 
      	</div>
      {%endfor%}
      {%if edit%}
-            <form method=post  action="{{url_for('albums.albums_edit_route',username=username)}}" method="POST" enctype=multipart/form-data>
+            <form method=post  action="{{url_for('albums.albums_edit_route')}}" method="POST" enctype=multipart/form-data>
           Album name:<br>
-          <input id=album_add_name type="text" name="album_name" value="Mouse">
+          <input id=album_add_name type="text" name="title" value="Mouse">
+          <input type="hidden" name="op" value="add">
+          <input type="hidden" name="username" value={{username}}>
           <br><br>
-          <input  id=album_add_submit type="submit" value="Submit">
+          <input  id=album_add_submit type="submit" class="btn btn-primary btn" role="button" value=Submit>
         </form> 
     {%endif%}
  </p>
