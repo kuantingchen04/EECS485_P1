@@ -15,10 +15,19 @@ def access_db(query):
 	cur.execute(query)
 	results=cur.fetchall()
 	return results
-@albums.route('/albums/edit',methods=['GET','POST'])
+
+@albums.route('/albums/edit',methods=['GET','POST'])	
 def albums_edit_route():
 	if request.method=='POST':
-		print (request.form.get("album_name"))
+		if request.form.get("op")=="add":
+			max_albumid=(access_db("SELECT MAX(albumid) FROM Album")[0]['MAX(albumid)'])
+			access_db("INSERT INTO Album (albumid, title, created, lastupdated, username) VALUES ("+str(max_albumid+1)+",\""+request.form.get("title")+"\",TIMESTAMP '2017-01-11 03:56:35',TIMESTAMP '2017-01-11 03:56:35',\'"+request.form.get("username")+"\');")
+			return redirect('/albums/edit?username='+request.form.get("username"))
+		elif request.form.get("op")=="delete":
+			print("DELETE FROM Album WHERE albumid = \""+request.form.get("albumid")+"\"")
+			access_db("DELETE FROM Album WHERE albumid = \""+request.form.get("albumid")+"\"")
+			return redirect('/albums/edit?username='+request.args.get("username"))
+		
 	username=request.args.get("username")
 	
 	options = {
