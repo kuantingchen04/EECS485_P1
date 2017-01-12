@@ -15,7 +15,7 @@ body {
 
       <!-- Main jumbotron for a primary marketing message or call to action -->
       <div class="jumbotron">
-        <h1>Hello {{username}}</h1>
+        <h1>Hello </h1>
         <p>Welcome to this website. This site is for the exclusive use of EECS 485.</p>
      <!--  <p><a href="search_the_folder.html" class="btn btn-primary btn-lg" role="button">Search the folder &raquo;</a></p> -->
      
@@ -31,7 +31,7 @@ body {
                                 <tbody>
                                      {% for n in name_list %}
                                      <tr>
-                                      <td> <a id={{n[2]}} href={{n[1]}}  >{{n[0]}} </td>
+                                      <td> <a id={{"user_albums_"~n}} href={{"albums?username="~n}}  >{{n}} </td>
                                       </tr>
                                       {% endfor %}
                                       
