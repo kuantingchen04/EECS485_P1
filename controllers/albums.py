@@ -9,9 +9,16 @@ def get_album_list(username):
 	results=cur.fetchall()
 	album_list=[[r['albumid'],r['title']] for r in results]
 	return album_list
-
-@albums.route('/albums/edit')
+def access_db(query):
+	db = connect_to_database()
+	cur = db.cursor()
+	cur.execute(query)
+	results=cur.fetchall()
+	return results
+@albums.route('/albums/edit',methods=['GET','POST'])
 def albums_edit_route():
+	if request.method=='POST':
+		print (request.form.get("album_name"))
 	username=request.args.get("username")
 	
 	options = {

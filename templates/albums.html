@@ -22,17 +22,12 @@
      	</div>
      {%endfor%}
      {%if edit%}
-     <p>
-     <div class="col-sm-3">
-     <div class="form-group">
-            <label>Add a new album</label>
-            <input id=album_add_name class="form-control" placeholder="Album name">
-        </div>
-    </div>
-	</p>
-	<br><br><br><br>
-     <a id ="id=album_add_submit" href={{"../albums?username="~username}} class="btn btn-primary btn" role="button">Add a new album»</a>
-     
+            <form method=post  action="{{url_for('albums.albums_edit_route',username=username)}}" method="POST" enctype=multipart/form-data>
+          Album name:<br>
+          <input id=album_add_name type="text" name="album_name" value="Mouse">
+          <br><br>
+          <input  id=album_add_submit type="submit" value="Submit">
+        </form> 
     {%endif%}
  </p>
  </div>
