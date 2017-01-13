@@ -31,7 +31,7 @@ body {
                                 <tbody>
                                      {% for n in name_list %}
                                      <tr>
-                                      <td> <a id={{"user_albums_"~n}} href={{"albums?username="~n}}  >{{n}} </td>
+                                      <td> <a id={{"user_albums_"~n}} href="{{url_for('albums.albums_route',username=n)}}"  >{{n}} </td>
                                       </tr>
                                       {% endfor %}
                                       
