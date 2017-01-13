@@ -91,6 +91,24 @@ def delete_image_db(albumid,picid):
     print('num of photos: %s, latest sequencenum: %s' % (len(results),current_seqnum))   
 
 
+    # delete image from dircectory
+
+    #os.remove() 
+    # POT
+    q = 'SELECT format FROM Photo WHERE picid = "%s"' % (picid)
+    print('query:%s' % q)
+    cur.execute(q)
+    results = cur.fetchall()
+    #print(results[0]['format'])
+    ext = results[0]['format']
+
+    target = os.path.join(APP_ROOT,'../static/images')
+    destination = "/".join([target,'%s.%s' % (picid,ext)])
+
+    print('QQ: %s'  % destination)
+    os.remove(destination) 
+
+
     # delete from Contain Instance
     q = 'DELETE FROM Contain WHERE picid = "%s"' % (picid)
     print('query:%s' % q)
@@ -106,6 +124,8 @@ def delete_image_db(albumid,picid):
     q = 'UPDATE Album A SET A.lastupdated=TIMESTAMP "%s" WHERE A.albumid=%s' % (albumdate,albumid) 
     print('query:%s' % q)
     cur.execute(q)
+
+
 
     return
 
@@ -179,6 +199,10 @@ def album_edit_route():
             print("picid: %s" % picid)
 
             delete_image_db(albumid,picid)
+
+            
+
+
 
     picid_lst=get_picid_lst(albumid_get)
     return render_template("album.html", **options, albumid=albumid_get, picid_lst=picid_lst)
