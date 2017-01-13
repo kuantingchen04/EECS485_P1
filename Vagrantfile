@@ -11,7 +11,7 @@ Vagrant.configure(2) do |config|
 
   # Name your virtual machine
   config.vm.provider "virtualbox" do |v|
-    v.name = "eecs485_dev_box"
+    v.name = "eecs485_dev_box_0"
   end
 
   # Run vagrant.sh the first time a VM is set up
