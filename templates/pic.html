@@ -1,7 +1,48 @@
-{% extends "base.html" %}
+{% extends "base.html" %} 
 {% block content %}
-    <h1>PIC </h1>
-    <p class="important">
-      Not Welcome!
-    </p>
+
+
+            
+     <div class="container theme-showcase" role="main">
+    <div class="jumbotron">
+    
+        <h1 style="text-align: center; font-family: Arieval">Pictures in this album</h1>
+        
+        
+    <div>
+        
+          
+        <img   src={{"../static/images/"~image_list[i]~".jpg"}} style="display:block; margin:auto;" ></img>
+
+        {% if  i >0 %}           
+            <a style="float:left;" id=pre_id href="{{url_for('pic.pic_route',picid=image_list[i-1])}}" class="btn btn-lg btn-warning" role="button">Previous</a>     
+            <!--Route: http://2j0u0dsj:4775/64ogrm6mxzu9805asjor/p1/pic?picid=<picid>-->
+
+        {%endif%} 
+
+        {% if i<len-1 %}          
+            <a style="float:right;" id=next_id href="{{url_for('pic.pic_route',picid=image_list[i+1])}}" class="btn btn-lg btn-warning" role="button">Next</a>
+        {%endif%}
+</div>
+
+</div>
+  
+
+    <div class="progress">
+                    
+                <div class="progress-bar progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style={{"width:"~(i+1)*100/len~"%"}}>
+                </div>
+              </div>
+
+
+
+<p>
+   
+      <a  href="{{url_for('album.album_route',albumid=album_num)}}" class="btn btn-success btn-lg" role="button">Back to Albums {{album_num}}»</a>
+      
+</p>    
+
+
+
+
 {% endblock %}
