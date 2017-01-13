@@ -41,9 +41,9 @@ def get_picid_lst(albumid):
             print('ERROR! Cant find image file')
         picid_lst.append(pic_id_type[0])
 
-        print([result['sequencenum'],pic_id_type[0]])
-    print('albumid: %s' % albumid)
-    print('# of images: %s' % len(results))
+        #print([result['sequencenum'],pic_id_type[0]])
+    #print('albumid: %s' % albumid)
+    #print('# of images: %s' % len(results))
     return picid_lst
 
 def add_image_db(albumid,filename):
@@ -106,36 +106,91 @@ def delete_image_db(albumid,picid):
     q = 'UPDATE Album A SET A.lastupdated=TIMESTAMP "%s" WHERE A.albumid=%s' % (albumdate,albumid) 
     print('query:%s' % q)
     cur.execute(q)
-    
 
-    # delete images
-
-    
-    
     return
 
 
 
 ### routes ###
 
-@album.route('/album/edit')
+@album.route('/album/edit',methods=['GET','POST'])
 def album_edit_route():
     options = {
         "edit": True
     }
-    albumid = request.args.get('albumid', '')
+    albumid_get = request.args.get('albumid', '')
     #options['albumid'] = albumid
-    picid_lst=get_picid_lst(albumid)
-    return render_template("album.html", **options, albumid=albumid, picid_lst=picid_lst)
 
 
-@album.route('/album')
+    ## process POST
+    target = os.path.join(APP_ROOT,'../static/images')
+    if not os.path.isdir(target):
+        os.mkdir(target)
+
+    if request.method == 'POST':
+
+        # if add POST
+        if request.form["op"]=="add":
+
+            op = request.form["op"]
+            albumid = request.form["albumid"]
+
+            print("[ GET ADD POST ] ")
+            print("op: %s" % op)
+            print("albumid: %s" % albumid)
+
+            if 'file' not in request.files:
+                flash('No file part')
+                return redirect(request.url)
+
+            file = request.files['file']
+
+            if file.filename == '':
+                flash('No selected file')
+                return redirect(request.url)
+
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                print("filename:%s, filetype: %s" % (filename,allowed_file(file.filename)))
+                
+                # save image
+                #destination = "/".join([target,filename])
+                m = hashlib.md5((str(albumid) + filename).encode('utf-8'))
+                ext = filename.rsplit('.', 1)[1].lower()
+                new_filename = m.hexdigest() + '.%s' % ext
+                destination = "/".join([target,new_filename])
+                print('image saved as: %s' % destination)
+                file.save(destination)
+
+                add_image_db(albumid,filename)
+
+            return redirect(url_for('album.album_route',albumid=albumid))
+
+        # if delete POST
+        if request.form["op"]=="delete":
+
+            op = request.form["op"]
+            albumid = request.form["albumid"]
+            picid = request.form["picid"]
+
+            print("[ GET DELETE POST ]")
+            print("op: %s" % op)
+            print("albumid: %s" % albumid)
+            print("picid: %s" % picid)
+
+            delete_image_db(albumid,picid)
+
+    picid_lst=get_picid_lst(albumid_get)
+    return render_template("album.html", **options, albumid=albumid_get, picid_lst=picid_lst)
+
+
+@album.route('/album',methods=['GET','POST'])
 def album_route():
     options = {
         "edit": False
     }
 
-    # get param
+    ## get GET param
     albumid = request.args.get('albumid', '')
     #options['albumid'] = albumid
 
@@ -144,15 +199,6 @@ def album_route():
     db = connect_to_database()
     cur = db.cursor()
     # get Album info
-    '''
-    cur.execute('SELECT albumid, title, created, lastupdated, username FROM Album')
-    results = cur.fetchall()
-    for result in results:
-        #print(int(result['albumid'])==int(albumid))
-        print(result)
-        if result['albumid']==int(albumid):
-            print(result['albumid'],result['title'])
-    '''
 
     picid_lst=get_picid_lst(albumid)
     return render_template("album.html", **options, albumid=albumid, picid_lst=picid_lst)
