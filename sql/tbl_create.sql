@@ -34,7 +34,7 @@ albumid int,
 picid varchar(40),
 caption varchar(255),
 PRIMARY KEY (sequencenum),
-FOREIGN KEY (albumid) REFERENCES Album(albumid),
+#FOREIGN KEY (albumid) REFERENCES Album(albumid),
 FOREIGN KEY (picid) REFERENCES Photo(picid)
 );
 
