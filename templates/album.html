@@ -17,19 +17,19 @@
         -->
 
           <form method=post action="{{ url_for('album.album_edit_route',albumid=albumid) }}" method="POST" enctype=multipart/form-data>
-          <input type=file name=file>
+          <input id=file_input type=file name=file>
           <input type="hidden" name="op" value="add">
           <input type="hidden" name="albumid" value={{albumid}} >
 
-          <input type=submit value=Upload>
+          <input id=file_submit type=submit value=Upload>
           </form>
 
         </p>
 
-        <p><a href="{{ url_for('album.album_route',albumid=albumid) }}">Back To Album</a></p>
+        <p><a id=album_{{ albumid }}_link href="{{ url_for('album.album_route',albumid=albumid) }}">Back To Album</a></p>
     {% else %}
         <!-- <a href="{{ url_for('album.album_edit_route') }}">EDIT</a> -->
-        <p><a href="{{ url_for('album.album_edit_route',albumid=albumid) }}">EDIT</a></p>
+        <p><a id=album_edit_{{ albumid }}_link href="{{ url_for('album.album_edit_route',albumid=albumid) }}">EDIT</a></p>
     {% endif %}
 
 
@@ -47,10 +47,10 @@
             <input type="hidden" name="op" value="delete">
             <input type="hidden" name="albumid" value={{albumid}} >
             <input type="hidden" name="picid" value={{ picid.split('.')[0] }} >
-            <button name="subject" type="submit" >DELETE</button>
+            <button id=delete_pic_{{ picid.split('.')[0] }} name="subject" type="submit" >DELETE</button>
           </form>
         {% else %}
-          <a href="{{ url_for('pic.pic_route',picid=picid.split('.')[0]) }}"><img src="../static/images/{{ picid }}" alt="HTML5 Icon" width="128" height="128"></a>
+          <a id=pic_{{ picid.split('.')[0] }}_link href="{{ url_for('pic.pic_route',picid=picid.split('.')[0]) }}"><img src="../static/images/{{ picid }}" alt="HTML5 Icon" width="128" height="128"></a>
         {% endif %}
     
     {% endfor %}

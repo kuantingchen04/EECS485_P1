@@ -10,7 +10,7 @@ import datetime, time
 
 album = Blueprint('album', __name__, template_folder='templates')
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+ALLOWED_EXTENSIONS = set([ 'png', 'jpg', 'bmp', 'gif'])
 IMG_DIR = 'static/images'
 
 
