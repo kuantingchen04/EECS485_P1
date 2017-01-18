@@ -38,7 +38,7 @@ def get_picid_lst(albumid):
         
         # debug
         if not pic_id_type[0]:
-            print('ERROR! Cant find image file')
+            print('ERROR! Cant find image in static/image')
         picid_lst.append(pic_id_type[0])
 
         #print([result['sequencenum'],pic_id_type[0]])
@@ -68,18 +68,18 @@ def add_image_db(albumid,filename):
 
 
     q = 'INSERT INTO Photo (picid, format, date) VALUES ("%s","%s",TIMESTAMP "%s")' % (picid,picformat,picdate)
-    print('query:%s' % q)
+    print('KC:[INSERT INTO PHOTO] %s' % q)
     cur.execute(q)
     
     # update Contain Instance
     q = 'INSERT INTO Contain (sequencenum, albumid, picid, caption) VALUES (%s,%s,"%s","")' % (current_seqnum+1,int(albumid),picid)
-    print('query:%s' % q)
+    print('KC:[INSERT INTO CONTAIN] %s' % q)
     cur.execute(q)
     
     # update the Album info
     albumdate = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
     q = 'UPDATE Album A SET A.lastupdated=TIMESTAMP "%s" WHERE A.albumid=%s' % (albumdate,albumid)
-    print('query:%s' % q)
+    print('KC:[UPDATE ALBUM] %s' % q)
     cur.execute(q)
 
     return ''
@@ -110,24 +110,24 @@ def delete_image_db(albumid,picid):
     target = os.path.join(APP_ROOT,'../static/images')
     destination = "/".join([target,'%s.%s' % (picid,ext)])
 
-    print('QQ: %s'  % destination)
+    print('KC:[DELETE FROM STATIC/IMAGE] %s'  % destination)
     os.remove(destination) 
 
 
     # delete from Contain Instance
     q = 'DELETE FROM Contain WHERE picid = "%s"' % (picid)
-    print('query:%s' % q)
+    print('KC:[DELETE FROM CONTAIN]:%s' % q)
     cur.execute(q)
 
     # delete from Photo Instance
     q = 'DELETE FROM Photo WHERE picid = "%s"' % (picid)
-    print('query:%s' % q)
+    print('KC:[DELETE FROM PHOTO] %s' % q)
     cur.execute(q)
     
     # update the Album info
     albumdate = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
     q = 'UPDATE Album A SET A.lastupdated=TIMESTAMP "%s" WHERE A.albumid=%s' % (albumdate,albumid) 
-    print('query:%s' % q)
+    print('KC:[UPDATE ALBUM] %s' % q)
     cur.execute(q)
 
 
@@ -144,22 +144,23 @@ def album_edit_route():
         "edit": True
     }
     albumid_get = request.args.get('albumid', '')
-    print('albumid_edit_route:%s' % albumid_get)
 
 
     
-    if not albumid_get:
-        print(404)
-        abort(404)    
+    #if not albumid_get:
+    #    print(404)
+    #    abort(404)    
 
+    # check invalid albumid
     q = 'SELECT albumid FROM Album WHERE albumid="%s"' % albumid_get
+    print('KC:[check albumid] %s' % q)
 
     db = connect_to_database()
     cur = db.cursor()
     cur.execute(q)
     results = cur.fetchall()
     if not results:
-        print(404)
+        print("KC:404")
         abort(404)    
 
 
@@ -185,28 +186,26 @@ def album_edit_route():
             print("[ GET ADD POST ] ")
             print("op: %s" % op)
             print("albumid: %s" % albumid)
+
             if 'file' not in request.files:
-                #flash('No file part')
-            	#return redirect(request.url)
+                print('No file part')
                 abort(404)
+            	#return redirect(request.url)
             file = request.files['file']
             if file.filename == "":
-                #flash('No selected file')
+                print('No selected file')
+                abort(404)
+                #return render_template("404.html",arg=albumid,reason='Enter Invalid Picture Name'), 404
                 #return redirect(request.url)
-            	return render_template("404.html",arg=albumid,reason='Enter Invalid Picture Name'), 404
             if not allowed_file(file.filename):
             	abort(404)
 		#return render_template("404.html",arg=albumid,reason='Enter Invalid Picture Type'), 404
-            #if file.filename == '':
-            #    flash('No selected file')
-            #    return redirect(request.url)
 
             if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
                 print("filename:%s, filetype: %s" % (filename,allowed_file(file.filename)))
                 
                 # save image
-                #destination = "/".join([target,filename])
                 m = hashlib.md5((str(albumid) + filename).encode('utf-8'))
                 ext = filename.rsplit('.', 1)[1].lower()
                 new_filename = m.hexdigest() + '.%s' % ext
@@ -233,9 +232,6 @@ def album_edit_route():
             delete_image_db(albumid,picid)
 
             
-
-
-
     picid_lst=get_picid_lst(albumid_get)
     #return render_template("album.html", **options, albumid=albumid_get, picid_lst=picid_lst)
     return render_template("album.html", edit=True, albumid=albumid_get, picid_lst=picid_lst)
@@ -249,21 +245,22 @@ def album_route():
 
     ## get GET param
     albumid = request.args.get('albumid', '')
-    print('albumid_route:%s' % albumid)
 
     # invalid case
-    if not albumid:
-        print(404)
-        abort(404)
-
+    #if not albumid:
+    #    print(404)
+    #    abort(404)
+    
+    # check invalid albumid
     q = 'SELECT albumid FROM Album WHERE albumid="%s"' % albumid
+    print('KC:[check albumid] %s' % q)
 
     db = connect_to_database()
     cur = db.cursor()
     cur.execute(q)
     results = cur.fetchall()
     if not results:
-        print(404)
+        print("KC:404")
         abort(404)    
 
     # get Album info
