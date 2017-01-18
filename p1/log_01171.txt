@@ -1,0 +1,6 @@
+Resetting static resources from backup...
+Done.
+Resetting SQL database...
+Done.
+starting app.py
+Done.

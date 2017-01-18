@@ -1,0 +1,1 @@
+SELECT albumid, picid, caption FROM Contain ORDER BY picid;

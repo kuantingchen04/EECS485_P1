@@ -1,0 +1,15 @@
+{% extends "base.html" %} 
+{% block content %}
+<p>Page Not Found</p>
+<div>
+<h1>404 Error (Page Not Found)</h1>
+<p> Hey, {{reason}} </p>
+</div>
+
+{%if reason =="Enter Invalid Album Name" %}
+    <p><a href="{{ url_for ('albums.albums_edit_route',username=arg)}}" class="btn btn-success btn-lg" role="button"> Back to Albums Edit»</a>
+
+{%else%}
+     <p><a href="{{ url_for ('album.album_edit_route',albumid=arg)}}" class="btn btn-success btn-lg" role="button"> Back to Album Edit»</a>
+{%endif%}
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <div class="container theme-showcase" role="main">
+    <div class="jumbotron">
+
+    <h1 class="thumbnail">ALBUM: {{ albumid }}</h1>
+    <p class="important">
+      Welcome!
+    </p>
+
+    {% if edit %}
+        <div> This is only on the edit page </div>
+
+
+          <form method=post action="{{ url_for('album.album_edit_route',albumid=albumid) }}" method="POST" enctype=multipart/form-data>
+          <input id=file_input type=file name=file>
+          <input type="hidden" name="op" value="add">
+          <input type="hidden" name="albumid" value={{albumid}} >
+
+          <input id=file_submit type=submit value=Upload>
+          </form>
+
+        </p>
+
+        <p><a id=album_{{ albumid }}_link href="{{ url_for('album.album_route',albumid=albumid) }}">Back To Album</a></p>
+    {% else %}
+        <p><a id=album_edit_{{ albumid }}_link href="{{ url_for('album.album_edit_route',albumid=albumid) }}">EDIT</a></p>
+    {% endif %}
+
+
+    <p>
+    {% for picid in picid_lst %}
+    
+        {% if edit %}
+          <!--<img src="/static/images/{{ picid }}" alt="HTML5 Icon" width="128" height="128">-->
+          <a id=pic_{{ picid.split('.')[0] }}_link href="{{ url_for('pic.pic_route',picid=picid.split('.')[0]) }}"><img src="/static/images/{{ picid }}" alt="HTML5 Icon" width="128" height="128"></a>
+
+
+          <form action="{{ url_for('album.album_edit_route',albumid=albumid) }}" method="POST" enctype=multipart/form-data>
+            <input type="hidden" name="op" value="delete">
+            <input type="hidden" name="albumid" value={{albumid}} >
+            <input type="hidden" name="picid" value={{ picid.split('.')[0] }} >
+            <button id=delete_pic_{{ picid.split('.')[0] }} name="subject" type="submit" >DELETE</button>
+          </form>
+        {% else %}
+          <a id=pic_{{ picid.split('.')[0] }}_link href="{{ url_for('pic.pic_route',picid=picid.split('.')[0]) }}"><img src="/static/images/{{ picid }}" alt="HTML5 Icon" width="128" height="128"></a>
+        {% endif %}
+    
+    {% endfor %}
+    </p>
+
+{% endblock %}
