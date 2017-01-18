@@ -45,10 +45,10 @@ FOREIGN KEY (picid) REFERENCES Photo(picid)
 INSERT INTO User (username, firstname, lastname, password, email) VALUES ( 'sportslover','Paul','Walker','paulpass93','sportslover@hotmail.com');
 INSERT INTO User (username, firstname, lastname, password, email) VALUES ( 'traveler','Rebecca','Travolta','rebeccapass15','rebt@explorer.org');
 INSERT INTO User (username, firstname, lastname, password, email) VALUES ( 'spacejunkie','Bob','Spacey','bob1pass','bspace@spacejunkies.net');
-INSERT INTO Album (albumid, title, created, lastupdated, username) VALUES (1,'I love sports',TIMESTAMP '2017-01-11 03:56:35',TIMESTAMP '2017-01-11 03:56:35','sportslover');
-INSERT INTO Album (albumid, title, created, lastupdated, username) VALUES (2,'I love football',TIMESTAMP '2017-01-11 03:56:35',TIMESTAMP '2017-01-11 03:56:35','sportslover');
-INSERT INTO Album (albumid, title, created, lastupdated, username) VALUES (3,'Around The World',TIMESTAMP '2017-01-11 03:56:35',TIMESTAMP '2017-01-11 03:56:35','traveler');
-INSERT INTO Album (albumid, title, created, lastupdated, username) VALUES (4,'Cool Space Shots',TIMESTAMP '2017-01-11 03:56:35',TIMESTAMP '2017-01-11 03:56:35','spacejunkie');
+INSERT INTO Album ( title, created, lastupdated, username) VALUES ('I love sports',TIMESTAMP '2017-01-11 03:56:35',TIMESTAMP '2017-01-11 03:56:35','sportslover');
+INSERT INTO Album ( title, created, lastupdated, username) VALUES ('I love football',TIMESTAMP '2017-01-11 03:56:35',TIMESTAMP '2017-01-11 03:56:35','sportslover');
+INSERT INTO Album ( title, created, lastupdated, username) VALUES ('Around The World',TIMESTAMP '2017-01-11 03:56:35',TIMESTAMP '2017-01-11 03:56:35','traveler');
+INSERT INTO Album ( title, created, lastupdated, username) VALUES ('Cool Space Shots',TIMESTAMP '2017-01-11 03:56:35',TIMESTAMP '2017-01-11 03:56:35','spacejunkie');
 INSERT INTO Photo (picid, format, date) VALUES ('001025dd643b0eb0661e359de86e3ea9','jpg',TIMESTAMP '2017-01-11 03:56:35');
 INSERT INTO Photo (picid, format, date) VALUES ('9a0a7d25af4f7a73f67dde74e8e54cff','jpg',TIMESTAMP '2017-01-11 03:56:35');
 INSERT INTO Photo (picid, format, date) VALUES ('c8e60100f13ffe374d59e39dc4b6a318','jpg',TIMESTAMP '2017-01-11 03:56:35');

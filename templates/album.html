@@ -12,9 +12,6 @@
     {% if edit %}
         <div> This is only on the edit page </div>
 
-        <!-- KC
-        <p><a href="{{ url_for('album.pic_add',albumid=albumid) }}">ADD (Old Version)</a>
-        -->
 
           <form method=post action="{{ url_for('album.album_edit_route',albumid=albumid) }}" method="POST" enctype=multipart/form-data>
           <input id=file_input type=file name=file>
@@ -28,7 +25,6 @@
 
         <p><a id=album_{{ albumid }}_link href="{{ url_for('album.album_route',albumid=albumid) }}">Back To Album</a></p>
     {% else %}
-        <!-- <a href="{{ url_for('album.album_edit_route') }}">EDIT</a> -->
         <p><a id=album_edit_{{ albumid }}_link href="{{ url_for('album.album_edit_route',albumid=albumid) }}">EDIT</a></p>
     {% endif %}
 
@@ -37,12 +33,9 @@
     {% for picid in picid_lst %}
     
         {% if edit %}
-          <!--<img src="../static/images/{{ picid }}" alt="HTML5 Icon" width="128" height="128">-->
-          <a id=pic_{{ picid.split('.')[0] }}_link href="{{ url_for('pic.pic_route',picid=picid.split('.')[0]) }}"><img src="../static/images/{{ picid }}" alt="HTML5 Icon" width="128" height="128"></a>
+          <!--<img src="/static/images/{{ picid }}" alt="HTML5 Icon" width="128" height="128">-->
+          <a id=pic_{{ picid.split('.')[0] }}_link href="{{ url_for('pic.pic_route',picid=picid.split('.')[0]) }}"><img src="/static/images/{{ picid }}" alt="HTML5 Icon" width="128" height="128"></a>
 
-          <!-- KC
-          <a href="{{ url_for('album.pic_delete',albumid=albumid,picid=picid.split('.')[0]) }}">Delete</a>
-          -->
 
           <form action="{{ url_for('album.album_edit_route',albumid=albumid) }}" method="POST" enctype=multipart/form-data>
             <input type="hidden" name="op" value="delete">
@@ -51,7 +44,7 @@
             <button id=delete_pic_{{ picid.split('.')[0] }} name="subject" type="submit" >DELETE</button>
           </form>
         {% else %}
-          <a id=pic_{{ picid.split('.')[0] }}_link href="{{ url_for('pic.pic_route',picid=picid.split('.')[0]) }}"><img src="../static/images/{{ picid }}" alt="HTML5 Icon" width="128" height="128"></a>
+          <a id=pic_{{ picid.split('.')[0] }}_link href="{{ url_for('pic.pic_route',picid=picid.split('.')[0]) }}"><img src="/static/images/{{ picid }}" alt="HTML5 Icon" width="128" height="128"></a>
         {% endif %}
     
     {% endfor %}

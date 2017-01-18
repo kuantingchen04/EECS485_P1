@@ -12,18 +12,15 @@
     <div>
         
           
-        <img   src={{"../static/images/"~image_list[i]~".jpg"}} style="display:block; margin:auto;" ></img>
-
-        {% if  i >0 %}           
+        <img   src={{"/static/images/"~image_list[i]~".jpg"}} style="display:block; margin:auto;" ></img>
+	 {% if  i >=0 %}  
             <a style="float:left;" id=pre_id href="{{url_for('pic.pic_route',picid=image_list[i-1])}}" class="btn btn-lg btn-warning" role="button">Previous</a>     
             <!--Route: http://2j0u0dsj:4775/64ogrm6mxzu9805asjor/p1/pic?picid=<picid>-->
-
-        {%endif%} 
-
-        {% if i<len-1 %}          
+	 {%endif%} 
+	 {% if i<len-1 %} 
             <a style="float:right;" id=next_id href="{{url_for('pic.pic_route',picid=image_list[i+1])}}" class="btn btn-lg btn-warning" role="button">Next</a>
-        {%endif%}
-</div>
+</div>	{%endif%}
+
 
 </div>
   

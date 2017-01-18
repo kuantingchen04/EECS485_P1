@@ -71,12 +71,17 @@ def add_image_db(albumid,filename):
     print('query:%s' % q)
     cur.execute(q)
     
-    
     # update Contain Instance
     q = 'INSERT INTO Contain (sequencenum, albumid, picid, caption) VALUES (%s,%s,"%s","")' % (current_seqnum+1,int(albumid),picid)
     print('query:%s' % q)
     cur.execute(q)
-     
+    
+    # update the Album info
+    albumdate = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
+    q = 'UPDATE Album A SET A.lastupdated=TIMESTAMP "%s" WHERE A.albumid=%s' % (albumdate,albumid)
+    print('query:%s' % q)
+    cur.execute(q)
+
     return ''
 
 def delete_image_db(albumid,picid):
@@ -139,7 +144,27 @@ def album_edit_route():
         "edit": True
     }
     albumid_get = request.args.get('albumid', '')
-    #options['albumid'] = albumid
+    print('albumid_edit_route:%s' % albumid_get)
+
+
+    
+    if not albumid_get:
+        print(404)
+        abort(404)    
+
+    q = 'SELECT albumid FROM Album WHERE albumid="%s"' % albumid_get
+
+    db = connect_to_database()
+    cur = db.cursor()
+    cur.execute(q)
+    results = cur.fetchall()
+    if not results:
+        print(404)
+        abort(404)    
+
+
+    #print(results)
+
 
 
     ## process POST
@@ -148,7 +173,9 @@ def album_edit_route():
         os.mkdir(target)
 
     if request.method == 'POST':
-
+        op = request.form["op"]
+        print("GET POST, op:%s" % op)
+        
         # if add POST
         if request.form["op"]=="add":
 
@@ -158,16 +185,21 @@ def album_edit_route():
             print("[ GET ADD POST ] ")
             print("op: %s" % op)
             print("albumid: %s" % albumid)
-
             if 'file' not in request.files:
-                flash('No file part')
-                return redirect(request.url)
-
+                #flash('No file part')
+            	#return redirect(request.url)
+                abort(404)
             file = request.files['file']
-
-            if file.filename == '':
-                flash('No selected file')
-                return redirect(request.url)
+            if file.filename == "":
+                #flash('No selected file')
+                #return redirect(request.url)
+            	return render_template("404.html",arg=albumid,reason='Enter Invalid Picture Name'), 404
+            if not allowed_file(file.filename):
+            	abort(404)
+		#return render_template("404.html",arg=albumid,reason='Enter Invalid Picture Type'), 404
+            #if file.filename == '':
+            #    flash('No selected file')
+            #    return redirect(request.url)
 
             if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
@@ -205,7 +237,8 @@ def album_edit_route():
 
 
     picid_lst=get_picid_lst(albumid_get)
-    return render_template("album.html", **options, albumid=albumid_get, picid_lst=picid_lst)
+    #return render_template("album.html", **options, albumid=albumid_get, picid_lst=picid_lst)
+    return render_template("album.html", edit=True, albumid=albumid_get, picid_lst=picid_lst)
 
 
 @album.route('/album',methods=['GET','POST'])
@@ -216,16 +249,28 @@ def album_route():
 
     ## get GET param
     albumid = request.args.get('albumid', '')
-    #options['albumid'] = albumid
+    print('albumid_route:%s' % albumid)
 
+    # invalid case
+    if not albumid:
+        print(404)
+        abort(404)
 
-    # get database info
+    q = 'SELECT albumid FROM Album WHERE albumid="%s"' % albumid
+
     db = connect_to_database()
     cur = db.cursor()
+    cur.execute(q)
+    results = cur.fetchall()
+    if not results:
+        print(404)
+        abort(404)    
+
     # get Album info
 
     picid_lst=get_picid_lst(albumid)
-    return render_template("album.html", **options, albumid=albumid, picid_lst=picid_lst)
+    #return render_template("album.html", **options, albumid=albumid, picid_lst=picid_lst)
+    return render_template("album.html", edit=False, albumid=albumid, picid_lst=picid_lst)
 
 # test upload
 

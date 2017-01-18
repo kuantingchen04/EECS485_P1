@@ -16,8 +16,9 @@ def pic_route():
 	image_list = [ result['picid'] for result in results]
 
 	# access Album id	
-	cur.execute('SELECT albumid FROM Album ;')
-	results_db = cur.fetchall()
+	cur2=db.cursor()
+	cur2.execute('SELECT albumid FROM Album ;')
+	results_db = cur2.fetchall()
 	alblum_list=[]*len(results_db)
 	albid=[ int(x["albumid"]) for x in results_db]
 	alblum_list=['0']*(max(albid)+1)
@@ -25,8 +26,12 @@ def pic_route():
 		alblum_list[albumid]=[ x['picid'] for x in results if x['albumid']==albumid]
 
 	#image_list = [ filename for filename in os.listdir('static/image_hash')]
-
+	if "picid" not in  request.args:
+		abort(404)
 	pic_name=request.args.get("picid")
+	print ("Michelle"+pic_name)
+	if pic_name not in image_list:
+		abort(404)
 	#pic_name='001025dd643b0eb0661e359de86e3ea9' 
 	#albumid=request.args.get("albumid")
 	#albumid=1

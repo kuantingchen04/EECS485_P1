@@ -20,13 +20,13 @@ for i in User_data:
 		
 s2=""
 for i in Album_data:
-	s_temp=	str(i[0])+",'"+ str(i[1])+"',"+','.join(str(items) for items in i[2:4])+",'"+ str(i[4])+"'"
-	s2=s2+"INSERT INTO Album (albumid, title, created, lastupdated, username) VALUES ("+s_temp+");\n"
+	s_temp=	"'"+ str(i[1])+"',"+','.join(str(items) for items in i[2:4])+",'"+ str(i[4])+"'"
+	s2=s2+"INSERT INTO Album ( title, created, lastupdated, username) VALUES ("+s_temp+");\n"
 
 s3=""
 for i in Contain_data:
-	s_temp=",".join(str(items) for items in i[0:2])+",'"+"','".join(str(items) for items in i[2:])+"'"
-	s3=s3+"INSERT INTO Contain (sequencenum, albumid, picid, caption) VALUES ("+s_temp+");\n"
+	s_temp=",".join(str(items) for items in i[1:2])+",'"+"','".join(str(items) for items in i[2:])+"'"
+	s3=s3+"INSERT INTO Contain (albumid, picid, caption) VALUES ("+s_temp+");\n"
 
 s4=""
 for i in Photo_data:
